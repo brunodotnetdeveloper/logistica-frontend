@@ -15,9 +15,11 @@ Antes de começar, certifique-se de que você tem o [Node.js](https://nodejs.org
    ```git clone https://github.com/brunodotnetdeveloper/logistica-frontend.git```
 
 2. **Navegue para o diretório do projeto:**
+
    ```cd logistica-frontend```
 
 3. **Instale as dependências do projeto:**
+
    ```npm install```
 
 ## Configuração da API
@@ -31,6 +33,7 @@ O arquivo de configuração do serviço é geralmente localizado em src/app/serv
 2. **Atualize a URL base da API:**
 
 Encontre a variável baseUrl e atualize-a com a URL da sua API. Por exemplo:
+
 ```private baseUrl = 'http://localhost:7102/api/clients';```
 
 Certifique-se de que a porta e o endpoint estão corretos de acordo com a configuração do seu backend.
@@ -38,9 +41,11 @@ Certifique-se de que a porta e o endpoint estão corretos de acordo com a config
 ## Executando o Projeto
 
 1. **Inicie o servidor de desenvolvimento Angular:**
+
     ```ng serve```
 
 2. **Acesse a aplicação:**
+
     Abra seu navegador e vá para http://localhost:4200.
 
 ## Estrutura do Projeto
