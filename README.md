@@ -45,8 +45,11 @@ Certifique-se de que a porta e o endpoint estão corretos de acordo com a config
 
 ## Estrutura do Projeto
 src/app/components/ - Contém os componentes do projeto.
+
 src/app/services/ - Contém os serviços que fazem a comunicação com a API backend.
+
 src/app/models/ - Contém as interfaces e modelos de dados.
+
 src/assets/ - Contém arquivos estáticos, como imagens e estilos.
 
 
