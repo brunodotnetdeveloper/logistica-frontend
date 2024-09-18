@@ -1,55 +1,137 @@
-<form (ngSubmit)="saveClient()" #clientForm="ngForm" class="form-container">
-  <div class="form-row">
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Nome Completo</mat-label>
-      <input
-        matInput
-        [(ngModel)]="client.name"
-        name="name"
-        required
-        minlength="3"
-        maxlength="50"
-        #name="ngModel"
-      />
-      <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
-        <ng-container *ngIf="name.errors?.['required']">Nome completo é obrigatório.</ng-container>
-        <ng-container *ngIf="name.errors?.['minlength']">O nome deve ter pelo menos 3 caracteres.</ng-container>
-        <ng-container *ngIf="name.errors?.['maxlength']">O nome não pode ter mais de 50 caracteres.</ng-container>
-      </mat-error>
-    </mat-form-field>
+<form (ngSubmit)="saveClient()" #clientForm="ngForm">
+  <!-- Linha para Informações Pessoais -->
+  <div fxLayout="row" fxLayoutGap="16px">
+    <!-- Nome Completo -->
+    <div>
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput [(ngModel)]="client.name" name="name" required />
+        <mat-error *ngIf="clientForm.submitted && !client.name">
+          Nome é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Data de Nascimento</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        [(ngModel)]="client.birthDate"
-        name="birthDate"
-        required
-        #birthDate="ngModel"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="birthDate.invalid && (birthDate.dirty || birthDate.touched)">
-        Data de nascimento é obrigatória.
-      </mat-error>
-    </mat-form-field>
+    <!-- Data de Nascimento -->
+    <div>
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Data de Nascimento</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="client.birthDate" name="birthDate" required />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="clientForm.submitted && !client.birthDate">
+          Data de nascimento é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Gênero</mat-label>
-      <mat-select [(ngModel)]="selectedGender" name="gender" required #gender="ngModel">
-        <mat-option *ngFor="let gender of genders" [value]="gender.value">
-          {{ gender.viewValue }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="gender.invalid && (gender.dirty || gender.touched)">
-        Gênero é obrigatório.
-      </mat-error>
-    </mat-form-field>
+    <!-- Gênero -->
+    <div fxFlex="33">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Gênero</mat-label>
+        <mat-select [(ngModel)]="selectedGender" name="gender" required>
+          <mat-option *ngFor="let gender of genders" [value]="gender.value">
+            {{ gender.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="clientForm.submitted && !selectedGender">
+          Gênero é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
   </div>
 
-  <div class="form-buttons">
-    <button mat-raised-button color="primary" type="submit" [disabled]="clientForm.invalid">Salvar</button>
+  <!-- Endereços -->
+  <div formArrayName="addresses">
+    <div *ngFor="let address of client.addresses; let i = index">
+      <div fxLayout="row" fxLayoutGap="16px">
+        <!-- Tipo de Endereço -->
+        <div fxFlex="25">
+          <mat-form-field appearance="fill" class="mat-form-field-full-width">
+            <mat-label>Tipo de Endereço</mat-label>
+            <mat-select [(ngModel)]="address.type" name="addressType{{ i }}" required>
+              <mat-option value="Comercial">Comercial</mat-option>
+              <mat-option value="Residencial">Residencial</mat-option>
+            </mat-select>
+            <mat-error *ngIf="clientForm.submitted && !address.type">
+              Tipo de endereço é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Rua -->
+        <div fxFlex="25">
+          <mat-form-field appearance="fill" class="mat-form-field-full-width">
+            <mat-label>Rua</mat-label>
+            <input matInput [(ngModel)]="address.street" name="addressStreet{{ i }}" required />
+            <mat-error *ngIf="clientForm.submitted && !address.street">
+              Rua é obrigatória
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Número -->
+        <div fxFlex="15">
+          <mat-form-field appearance="fill" class="mat-form-field-full-width">
+            <mat-label>Número</mat-label>
+            <input matInput [(ngModel)]="address.number" name="addressNumber{{ i }}" required />
+            <mat-error *ngIf="clientForm.submitted && !address.number">
+              Número é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Cidade -->
+        <div fxFlex="25">
+          <mat-form-field appearance="fill" class="mat-form-field-full-width">
+            <mat-label>Cidade</mat-label>
+            <input matInput [(ngModel)]="address.city" name="addressCity{{ i }}" required />
+            <mat-error *ngIf="clientForm.submitted && !address.city">
+              Cidade é obrigatória
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Estado -->
+        <div fxFlex="25">
+          <mat-form-field appearance="fill" class="mat-form-field-full-width">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="address.state" name="addressState{{ i }}" required>
+              <mat-option *ngFor="let state of statesBrazil" [value]="state.sail">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="clientForm.submitted && !address.state">
+              Estado é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Código Postal -->
+        <div fxFlex="25">
+          <mat-form-field appearance="fill" class="mat-form-field-full-width">
+            <mat-label>Código Postal</mat-label>
+            <input matInput [(ngModel)]="address.zipCode" name="addressZipCode{{ i }}" required />
+            <mat-error *ngIf="clientForm.submitted && !address.zipCode">
+              Código Postal é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Botão de Remover Endereço -->
+        <div fxFlex="5">
+          <button mat-icon-button color="warn" (click)="removeAddress(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botões de Ação -->
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+    <button mat-raised-button color="primary" type="button" (click)="addAddress()">Adicionar Endereço</button>
+    <button mat-raised-button color="primary" type="submit">Salvar</button>
     <button mat-button (click)="router.navigate(['/clients'])">Cancelar</button>
   </div>
 </form>

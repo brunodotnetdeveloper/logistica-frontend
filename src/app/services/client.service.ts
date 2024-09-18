@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AddressViewModel, ClientViewModel } from '../models/client';
+import { AddressViewModel, ClientViewModel, CreateClientViewModel } from '../models/client';
 
 
 @Injectable({
@@ -18,22 +18,22 @@ export class ClientService {
   }
 
   // Obter cliente por ID
-  getClientById(id: number): Observable<ClientViewModel> {
+  getById(id: number): Observable<ClientViewModel> {
     return this.http.get<ClientViewModel>(`${this.apiUrl}/${id}`);
   }
 
   // Criar um novo cliente
-  createClient(client: ClientViewModel): Observable<ClientViewModel> {
+  create(client: CreateClientViewModel): Observable<ClientViewModel> {
     return this.http.post<ClientViewModel>(this.apiUrl, client);
   }
 
   // Atualizar um cliente existente
-  updateClient(id: number, client: ClientViewModel): Observable<void> {
+  update(id: number, client: ClientViewModel): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, client);
   }
 
   // Excluir um cliente
-  deleteClient(id: number): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 

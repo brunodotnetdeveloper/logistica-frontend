@@ -23,6 +23,7 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http'; 
 import { ClientService } from './services/client.service';
 import { MatSelect } from '@angular/material/select';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatSelect } from '@angular/material/select';
     DashboardComponent,
   ],
   imports: [
+    FlexLayoutModule,
     HttpClientModule ,
     BrowserModule,
     AppRoutingModule,

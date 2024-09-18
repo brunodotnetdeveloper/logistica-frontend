@@ -1,0 +1,20 @@
+.welcome-card {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+    text-align: center; /* Alinha o texto horizontalmente ao centro */
+  }
+  
+  .center-text {
+    text-align: center; /* Garante que o texto dentro do cartão está centralizado */
+  }
+  
+  mat-card-header {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo do cabeçalho do cartão */
+  }
+  
+  mat-card-title {
+    text-align: center; /* Alinha o texto do título ao centro */
+  }
+  

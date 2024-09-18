@@ -17,14 +17,14 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
       <td mat-cell *matCellDef="let client">{{client.name}}</td>
     </ng-container>
 
     <!-- Birth Date Column -->
     <ng-container matColumnDef="birthDate">
-      <th mat-header-cell *matHeaderCellDef>Birth Date</th>
-      <td mat-cell *matCellDef="let client">{{client.birthDate | date}}</td>
+      <th mat-header-cell *matHeaderCellDef>Data de Nascimento</th>
+      <td mat-cell *matCellDef="let client">{{client.birthDate | date:'dd/MM/yyyy'}}</td>
     </ng-container>
 
     <!-- Details Column -->
