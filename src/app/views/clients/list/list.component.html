@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-12">
+    <button mat-raised-button color="primary" (click)="redirectToCreate()">Novo Cliente</button>
+  </div>
+</div>
+
+<hr />
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="clients" class="mat-table">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let client">{{client.id}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let client">{{client.name}}</td>
+    </ng-container>
+
+    <!-- Birth Date Column -->
+    <ng-container matColumnDef="birthDate">
+      <th mat-header-cell *matHeaderCellDef>Birth Date</th>
+      <td mat-cell *matCellDef="let client">{{client.birthDate | date}}</td>
+    </ng-container>
+
+    <!-- Details Column -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td mat-cell *matCellDef="let client">
+        <button mat-icon-button (click)="viewDetails(client)">
+          <mat-icon>search</mat-icon> <!-- Ícone de lupa -->
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+

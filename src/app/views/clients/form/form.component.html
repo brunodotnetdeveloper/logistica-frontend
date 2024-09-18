@@ -1,0 +1,55 @@
+<form (ngSubmit)="saveClient()" #clientForm="ngForm" class="form-container">
+  <div class="form-row">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Nome Completo</mat-label>
+      <input
+        matInput
+        [(ngModel)]="client.name"
+        name="name"
+        required
+        minlength="3"
+        maxlength="50"
+        #name="ngModel"
+      />
+      <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+        <ng-container *ngIf="name.errors?.['required']">Nome completo é obrigatório.</ng-container>
+        <ng-container *ngIf="name.errors?.['minlength']">O nome deve ter pelo menos 3 caracteres.</ng-container>
+        <ng-container *ngIf="name.errors?.['maxlength']">O nome não pode ter mais de 50 caracteres.</ng-container>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Data de Nascimento</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="client.birthDate"
+        name="birthDate"
+        required
+        #birthDate="ngModel"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="birthDate.invalid && (birthDate.dirty || birthDate.touched)">
+        Data de nascimento é obrigatória.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Gênero</mat-label>
+      <mat-select [(ngModel)]="selectedGender" name="gender" required #gender="ngModel">
+        <mat-option *ngFor="let gender of genders" [value]="gender.value">
+          {{ gender.viewValue }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="gender.invalid && (gender.dirty || gender.touched)">
+        Gênero é obrigatório.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-buttons">
+    <button mat-raised-button color="primary" type="submit" [disabled]="clientForm.invalid">Salvar</button>
+    <button mat-button (click)="router.navigate(['/clients'])">Cancelar</button>
+  </div>
+</form>
