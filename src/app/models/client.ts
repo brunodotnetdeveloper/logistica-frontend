@@ -15,6 +15,7 @@ export interface ClientViewModel extends CreateClientViewModel{
 }
 
 export interface AddressViewModel {
+  id: number;
   type: string; // e.g., Comercial, Residencial
   street: string;
   number: string;

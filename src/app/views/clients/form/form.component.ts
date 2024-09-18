@@ -110,6 +110,7 @@ export class FormComponent implements OnInit {
 
   addAddress(): void {
     this.client.addresses.push({
+      id: 0,
       type: '',
       street: '',
       number: '',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientViewModel } from '../../../models/client';
+import { AddressViewModel, ClientViewModel } from '../../../models/client';
 import { ClientService } from '../../../services/client.service';
 
 @Component({
@@ -38,5 +38,40 @@ export class DetailsComponent implements OnInit {
         this.router.navigate(['/clients']);
       }
     );
+  }
+
+  removeClient(): void {
+    if (this.client) {
+      this.clientService.delete(this.client.id).subscribe(
+        () => {
+          this.router.navigate(['/clients']);
+        },
+        (error: any) => {
+          console.error('Erro ao remover o cliente', error);
+        }
+      );
+    }
+  }
+
+  // Método para remover um endereço
+  removeAddress(address: AddressViewModel): void {
+    if (this.client) { // Verifica se client não é nulo
+      if (confirm('Tem certeza que deseja excluir este endereço?')) {
+        // Filtra o array de endereços para remover o endereço selecionado
+        this.client.addresses = this.client.addresses.filter(addr => addr !== address);
+
+        // Atualiza o cliente no backend
+        this.clientService.deleteAddress(this.client.id, address.id).subscribe(
+          () => {
+            console.log('Endereço removido com sucesso');
+          },
+          (error: any) => {
+            console.error('Erro ao remover o endereço', error);
+          }
+        );
+      }
+    } else {
+      console.error('Cliente não encontrado.');
+    }
   }
 }

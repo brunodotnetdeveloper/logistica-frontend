@@ -36,6 +36,10 @@ export class ClientService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  // Excluir um endereço do cliente 
+  deleteAddress(clientId: number, addressId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${clientId}/address/${addressId}`);
+  }
 
   // Obter endereços do cliente
   getClientAddresses(id: number): Observable<AddressViewModel[]> {
