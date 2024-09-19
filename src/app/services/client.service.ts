@@ -41,13 +41,17 @@ export class ClientService {
     return this.http.delete<void>(`${this.apiUrl}/${clientId}/address/${addressId}`);
   }
 
+  updateAddress(clientId: number, addressId: number, address: AddressViewModel): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${clientId}/address/${addressId}`, address);
+  }
+
   // Obter endereços do cliente
-  getClientAddresses(id: number): Observable<AddressViewModel[]> {
-    return this.http.get<AddressViewModel[]>(`${this.apiUrl}/${id}/addresses`);
+  getClientAddresses(clientId: number): Observable<AddressViewModel[]> {
+    return this.http.get<AddressViewModel[]>(`${this.apiUrl}/${clientId}/addresses`);
   }
 
   // Adicionar um endereço ao cliente
-  addAddressToClient(id: number, address: AddressViewModel): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${id}/addresses`, address);
+  addAddressToClient(clientId: number, address: AddressViewModel): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${clientId}/addresses`, address);
   }
 }

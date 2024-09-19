@@ -16,9 +16,7 @@
     <div>
       <mat-form-field appearance="fill" class="mat-form-field-full-width">
         <mat-label>Data de Nascimento</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="client.birthDate" name="birthDate" required />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input mask="00/00/0000" matInput [(ngModel)]="client.birthDate" name="birthDate" required />
         <mat-error *ngIf="clientForm.submitted && !client.birthDate">
           Data de nascimento é obrigatória
         </mat-error>
@@ -42,7 +40,7 @@
   </div>
 
   <!-- Endereços -->
-  <div formArrayName="addresses">
+  <div>
     <div *ngFor="let address of client.addresses; let i = index">
       <div fxLayout="row" fxLayoutGap="16px">
         <!-- Tipo de Endereço -->
@@ -111,7 +109,7 @@
         <div fxFlex="25">
           <mat-form-field appearance="fill" class="mat-form-field-full-width">
             <mat-label>Código Postal</mat-label>
-            <input matInput [(ngModel)]="address.zipCode" name="addressZipCode{{ i }}" required />
+            <input mask="00000-000" matInput [(ngModel)]="address.zipCode" name="addressZipCode{{ i }}" required />
             <mat-error *ngIf="clientForm.submitted && !address.zipCode">
               Código Postal é obrigatório
             </mat-error>

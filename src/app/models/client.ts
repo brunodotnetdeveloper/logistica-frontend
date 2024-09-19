@@ -1,6 +1,6 @@
 export interface CreateClientViewModel {
-  name: string;
-  birthDate: Date;
+  name: string | undefined;
+  birthDate: string | undefined;
   gender: string | undefined;
   addresses: AddressViewModel[];
 }
@@ -16,10 +16,12 @@ export interface ClientViewModel extends CreateClientViewModel{
 
 export interface AddressViewModel {
   id: number;
+  clientId: number;
   type: string; // e.g., Comercial, Residencial
   street: string;
   number: string;
   city: string;
   state: string;
-  zipCode: string;  
+  zipCode: string; 
+  complement: string;
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientService } from '../../../services/client.service'; // Ajuste o caminho conforme necessário
 import { ClientViewModel, CreateClientViewModel } from '../../../models/client'; // Ajuste o caminho conforme necessário
@@ -12,9 +11,9 @@ import { ClientViewModel, CreateClientViewModel } from '../../../models/client';
 })
 export class FormComponent implements OnInit {
   client: CreateClientViewModel = {
-    name: '',
-    gender: '',
-    birthDate: new Date(),
+    name: undefined,
+    gender: undefined,
+    birthDate: undefined,
     addresses: [],
   };
   selectedGender: string | undefined;
@@ -50,13 +49,13 @@ export class FormComponent implements OnInit {
     { sail: 'SC', name: 'Santa Catarina' },
     { sail: 'SP', name: 'São Paulo' },
     { sail: 'SE', name: 'Sergipe' },
-    { sail: 'TO', name: 'Tocantins' }
+    { sail: 'TO', name: 'Tocantins' },
   ];
 
   constructor(
     private clientService: ClientService,
     public router: Router,
-    private route: ActivatedRoute,    
+    private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {}
 
@@ -67,60 +66,82 @@ export class FormComponent implements OnInit {
         this.clientId = Number.parseInt(clientId);
         this.client = clientData;
         this.selectedGender = clientData.gender;
+        // Ajuste a data para garantir que está no formato correto
+        // this.client.birthDate = new Date(clientData.birthDate);
       });
-    }
-  }
-
-  saveClient(): void {
-    // Atribui o gênero selecionado ao cliente
-    this.client.gender = this.selectedGender;
-  
-    if (this.clientId) {
-      // Atualiza o cliente existente
-      this.clientService.update(this.clientId, this.client as ClientViewModel).subscribe(
-        () => {
-          this.snackBar.open('Cliente atualizado com sucesso!', 'Fechar', {
-            duration: 3000
-          });
-          this.router.navigate(['/clients']);
-        },
-        () => {
-          this.snackBar.open('Erro ao atualizar cliente.', 'Fechar', {
-            duration: 3000
-          });
-        }
-      );
-    } else {
-      // Cria um novo cliente
-      this.clientService.create(this.client as CreateClientViewModel).subscribe(
-        () => {
-          this.snackBar.open('Cliente criado com sucesso!', 'Fechar', {
-            duration: 3000
-          });
-          this.router.navigate(['/clients']);
-        },
-        () => {
-          this.snackBar.open('Erro ao criar cliente.', 'Fechar', {
-            duration: 3000
-          });
-        }
-      );
     }
   }
 
   addAddress(): void {
     this.client.addresses.push({
-      id: 0,
+      complement: '',
       type: '',
       street: '',
       number: '',
       city: '',
       state: '',
       zipCode: '',
+      id: 0,
+      clientId: 0,
     });
   }
 
   removeAddress(index: number): void {
     this.client.addresses.splice(index, 1);
+  }
+
+  saveClient(): void {
+    if (this.client.name == undefined || this.client.name == '') {
+      this.snackBar.open('Nome do cliente é obrigatório!', 'Fechar', {
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (this.client.birthDate == undefined) {
+      this.snackBar.open('Data de nascimento é obrigatória!', 'Fechar', {
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (this.selectedGender == undefined || this.selectedGender == '') {
+      this.snackBar.open('Gênero é obrigatório!', 'Fechar', {
+        duration: 3000,
+      });
+      return;
+    }
+
+    // Atribui o gênero selecionado ao cliente
+    this.client.gender = this.selectedGender;
+
+    this.client.birthDate = this.formatarData(this.client.birthDate);
+    // this.client.birthDate = new Date(this.client.birthDate);
+    // Cria um novo cliente
+    this.clientService.create(this.client as CreateClientViewModel).subscribe(
+      () => {
+        this.snackBar.open('Cliente criado com sucesso!', 'Fechar', {
+          duration: 3000,
+        });
+        this.router.navigate(['/clients']);
+      },
+      (error: any) => {
+        this.snackBar.open('Erro ao criar cliente.', 'Fechar', {
+          duration: 3000,
+        });
+      }
+    );
+  }
+
+  formatarData(data: string): string {
+    if (data.length !== 8) {
+      return 'Data inválida';
+    }
+
+    const dia = data.slice(0, 2);
+    const mes = data.slice(2, 4);
+    const ano = data.slice(4);
+
+    return `${dia}/${mes}/${ano}`;
   }
 }

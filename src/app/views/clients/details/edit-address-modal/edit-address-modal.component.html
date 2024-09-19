@@ -1,0 +1,97 @@
+<h2 mat-dialog-title>{{ data.address.id ? 'Editar Endereço' : 'Adicionar Endereço' }}</h2>
+
+<form [formGroup]="addressForm">
+  <!-- Linha para Tipo de Endereço -->
+  <div fxLayout="row" fxLayoutGap="16px">
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Tipo de Endereço</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option value="Comercial">Comercial</mat-option>
+          <mat-option value="Residencial">Residencial</mat-option>
+        </mat-select>
+        <mat-error *ngIf="addressForm.get('type')?.invalid && addressForm.get('type')?.touched">
+          Tipo de endereço é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Linha para Rua e Número -->
+  <div fxLayout="row" fxLayoutGap="16px">
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Rua</mat-label>
+        <input matInput formControlName="street" required />
+        <mat-error *ngIf="addressForm.get('street')?.invalid && addressForm.get('street')?.touched">
+          Rua é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Número</mat-label>
+        <input matInput formControlName="number" required />
+        <mat-error *ngIf="addressForm.get('number')?.invalid && addressForm.get('number')?.touched">
+          Número é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Linha para Cidade e Estado -->
+  <div fxLayout="row" fxLayoutGap="16px">
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Cidade</mat-label>
+        <input matInput formControlName="city" required />
+        <mat-error *ngIf="addressForm.get('city')?.invalid && addressForm.get('city')?.touched">
+          Cidade é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>UF</mat-label>
+        <mat-select formControlName="state" required>
+          <mat-option *ngFor="let state of statesBrazil" [value]="state.sail">
+            {{ state.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="addressForm.get('state')?.invalid && addressForm.get('state')?.touched">
+          UF é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Linha para CEP e Complemento -->
+  <div fxLayout="row" fxLayoutGap="16px">
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>CEP</mat-label>
+        <input matInput formControlName="zipCode" mask="00000-000" required />
+        <mat-error *ngIf="addressForm.get('zipCode')?.invalid && addressForm.get('zipCode')?.touched">
+          CEP deve estar no formato 00000-000
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" class="mat-form-field-full-width">
+        <mat-label>Complemento</mat-label>
+        <input matInput formControlName="complement" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Botões de Ação -->
+  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="addressForm.invalid" (click)="onSave()">
+      Salvar
+    </button>
+  </div>
+</form>
